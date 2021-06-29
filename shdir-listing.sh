@@ -27,8 +27,7 @@ Where OPTIONS:
   -h            Show this help and exit.
   -k            Skip creation of index.html if file named index.html already
                 exists in a directory.
-  -r            Dry run mode. Print the content that will be written to
-                index.html for each directory.
+  -r            Dry run mode. Do not write contents to index.html.
   -v            Display shDirListing version.
 
 ------------------------------------------
@@ -125,22 +124,22 @@ shdir_create_index_file()
             echo -n "${suffix}Creating index.html for ${_dir}..."
 
             [ -f "$_dir/index.html" ] && [ "$SHDIR_SKIP_INDEX" = "yes" ] && {
-                echo "...SKIP.";
+                echo "SKIP.";
                 continue
             }
 
             [ "$SHDIR_DRY_RUN" = "yes" ] && {
-                echo "...DONE"
+                echo "DONE."
                 continue
             }
 
             [ "$SHDIR_EMPTY_HTML" = "yes" ] && {
-                echo > $_dir/index.html && echo "...DONE"
+                echo > $_dir/index.html && echo "DONE."
                 continue
             }
 
             shdir_listing_html $_dir > $_dir/index.html
-            echo "...DONE.";
+            echo "DONE.";
         done
         depth=$(( $depth - 1 ))
     done
