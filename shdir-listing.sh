@@ -53,7 +53,7 @@ It will create index.html file with maximum depth of
 - website/
   - docs1/
     - archives/
-      index.html
+      - index.html
     - index.html
   - docs2/
     - index.html
