@@ -140,7 +140,7 @@ It will generate directory listing below.
 
 ### Running in Dry Run mode.
 
-In Dry Run mode no file will be written. So you can make sure that all the action correct before running the real one. Taken from previous example add an option switch `-r`.
+In Dry Run mode no file will be written. So you can make sure that all the action are correct before running the real one. Taken from previous example add an option switch `-r`.
 
 ```
 $ bash ./shdir-listing -d 1 -r ~/website
