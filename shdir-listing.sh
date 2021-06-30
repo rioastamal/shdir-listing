@@ -77,11 +77,19 @@ shdir_listing_html()
         return 1
     }
 
+    [ -z "$2" ] && {
+        echo "shdir_listing_html: Missing 2nd arg for root directory." >&2
+        return 1
+    }
+
     local output_file=$1/index.html
+    local doc_root=$( echo "$1" | sed "s#$2##g" )
+    [ -z "$doc_root" ] && doc_root="/"
+
     local html="<!DOCTYPE html>
 <html>
 <body>
-<h2>Directory Listing</h2>
+<h2>Directory Listing $doc_root</h2>
 <ul>"
 
     for _dir in $( find $1 -depth 1 | sort )
@@ -114,6 +122,7 @@ shdir_create_index_file()
 
     local depth=$2
     local suffix=""
+    local root_dir="$1"
 
     [ "$SHDIR_DRY_RUN" = "yes" ] && suffix="[DRY RUN] "
 
@@ -138,7 +147,7 @@ shdir_create_index_file()
                 continue
             }
 
-            shdir_listing_html $_dir > $_dir/index.html
+            shdir_listing_html "$_dir" "$root_dir" > $_dir/index.html
             echo "DONE.";
         done
         depth=$(( $depth - 1 ))
