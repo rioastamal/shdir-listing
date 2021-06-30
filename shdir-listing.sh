@@ -85,6 +85,7 @@ shdir_listing_html()
     local output_file=$1/index.html
     local doc_root=$( echo "$1" | sed "s#$2##g" )
     [ -z "$doc_root" ] && doc_root="/"
+    echo "$doc_root" | grep -q '/$' || doc_root="$doc_root/"
 
     local html="<!DOCTYPE html>
 <html>
