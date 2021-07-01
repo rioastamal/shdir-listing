@@ -93,7 +93,7 @@ shdir_listing_html()
 <h2>Directory Listing $doc_root</h2>
 <ul>"
 
-    for _dir in $( find $1 -depth 1 | sort )
+    for _dir in $( find $1 -maxdepth 1 | sort )
     do
         local _dirname=$( basename $_dir )
         [ "$_dirname" = "index.html" ] && continue
@@ -127,31 +127,27 @@ shdir_create_index_file()
 
     [ "$SHDIR_DRY_RUN" = "yes" ] && suffix="[DRY RUN] "
 
-    while [ $depth -gt -1 ];
+    for _dir in $( find $1 -maxdepth $depth -type d | sort -r )
     do
-        for _dir in $( find $1 -type d -depth $depth | sort )
-        do
-            echo -n "${suffix}Creating index.html for ${_dir}..."
+        echo -n "${suffix}Creating index.html for ${_dir}..."
 
-            [ -f "$_dir/index.html" ] && [ "$SHDIR_SKIP_INDEX" = "yes" ] && {
-                echo "SKIP.";
-                continue
-            }
+        [ -f "$_dir/index.html" ] && [ "$SHDIR_SKIP_INDEX" = "yes" ] && {
+            echo "SKIP.";
+            continue
+        }
 
-            [ "$SHDIR_DRY_RUN" = "yes" ] && {
-                echo "DONE."
-                continue
-            }
+        [ "$SHDIR_DRY_RUN" = "yes" ] && {
+            echo "DONE."
+            continue
+        }
 
-            [ "$SHDIR_EMPTY_HTML" = "yes" ] && {
-                echo > $_dir/index.html && echo "DONE."
-                continue
-            }
+        [ "$SHDIR_EMPTY_HTML" = "yes" ] && {
+            echo > $_dir/index.html && echo "DONE."
+            continue
+        }
 
-            shdir_listing_html "$_dir" "$root_dir" > $_dir/index.html
-            echo "DONE.";
-        done
-        depth=$(( $depth - 1 ))
+        shdir_listing_html "$_dir" "$root_dir" > $_dir/index.html
+        echo "DONE.";
     done
 }
 
