@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v2021-07-02
+
+* Fixed issue #2: Compatibility issue with GNU Find on Linux 
+
 ### v2021-06-29
 
 * Initial Release
